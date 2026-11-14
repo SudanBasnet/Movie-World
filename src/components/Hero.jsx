@@ -1,3 +1,5 @@
+import MovieCard from "./MovieCard";
+
 const Hero = () => {
   const movieStyle = {
     backgroundImage: `url(https://www.omdbapi.com/src/poster.jpg)`,
@@ -8,7 +10,7 @@ const Hero = () => {
   };
   return (
     <div>
-      <nav className="py-3 fg-danger fixed-top">
+      <nav className="py-3 text-danger fixed-top">
         <h2 className="container">Movie World</h2>
       </nav>
       <div
@@ -33,13 +35,13 @@ const Hero = () => {
               aria-label="Recipient's username"
               aria-describedby="button-addon2"
             />
-            <button
-              className="btn btn-solid theme-danger"
-              type="button"
-              id="button-addon2"
-            >
+            <button className="btn btn-danger" type="button" id="button-addon2">
               Button
             </button>
+          </div>
+
+          <div className="movie-card-display">
+            <MovieCard />
           </div>
         </div>
       </div>
