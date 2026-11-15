@@ -1,25 +1,35 @@
 const MovieCard = () => {
-  const Poster = "https://www.omdbapi.com/src/poster.jpg";
+  const poster = "https://www.omdbapi.com/src/poster.jpg";
+
   return (
-    <div className="container movie-card-item">
-      <div className="row  border rounded text-dark p-3">
-        <div className="col-md">
-          <img className="img-fluid" src={Poster} alt="Movie poster" />
+    <article className="movie-card">
+      <div className="poster-wrap">
+        <img src={poster} alt="Project Hail Mary movie poster" />
+        <span className="poster-label">Spotlight</span>
+      </div>
+
+      <div className="movie-card-body">
+        <p className="card-kicker">Tonight&apos;s pick</p>
+        <h2>Project Hail Mary</h2>
+
+        <div className="movie-meta" aria-label="Movie categories">
+          <span>Science fiction</span>
+          <span aria-hidden="true">•</span>
+          <span>Adventure</span>
         </div>
-        <div className="col-md">
-          <h3>Movie Name</h3>
-          <p>Imdb rating</p>
-          <p>Lorem ipsum dolor sit amet.</p>
-          <div className="d-flex justify-content-between">
-            <button className="btn btn-warning">Drama</button>
-            <button className="btn btn-info">Action</button>
-          </div>
-          <div className="d-grid mt-3">
-            <button className="btn btn-danger">Action</button>
-          </div>
+
+        <p className="movie-description">
+          A cinematic journey beyond the edge of the known universe.
+        </p>
+
+        <div className="movie-actions">
+          <button className="btn btn-danger" type="button">
+            View details
+          </button>
+          <span className="movie-note">Featured film</span>
         </div>
       </div>
-    </div>
+    </article>
   );
 };
 
