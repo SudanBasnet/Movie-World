@@ -1,34 +1,72 @@
-const MovieCard = () => {
-  const poster = "https://www.omdbapi.com/src/poster.jpg";
+const MovieCard = ({ movie, isLoading, isSearchResult }) => {
+  const metadata = [movie.year, movie.runtime, movie.rated].filter(Boolean);
+  const detailsUrl = movie.imdbId
+    ? `https://www.imdb.com/title/${movie.imdbId}/`
+    : "#movie-search";
 
   return (
-    <article className="movie-card">
+    <article className="movie-card" aria-busy={isLoading}>
       <div className="poster-wrap">
-        <img src={poster} alt="Project Hail Mary movie poster" />
-        <span className="poster-label">Spotlight</span>
+        {movie.poster ? (
+          <img src={movie.poster} alt={`${movie.title} poster`} />
+        ) : (
+          <div className="poster-fallback">
+            <span aria-hidden="true">MW</span>
+            <small>Poster unavailable</small>
+          </div>
+        )}
+        <span className="poster-label">
+          {isSearchResult ? movie.type : "Spotlight"}
+        </span>
       </div>
 
       <div className="movie-card-body">
-        <p className="card-kicker">Tonight&apos;s pick</p>
-        <h2>Project Hail Mary</h2>
-
-        <div className="movie-meta" aria-label="Movie categories">
-          <span>Science fiction</span>
-          <span aria-hidden="true">•</span>
-          <span>Adventure</span>
-        </div>
-
-        <p className="movie-description">
-          A cinematic journey beyond the edge of the known universe.
+        <p className="card-kicker">
+          {isSearchResult ? "Movie found" : "Tonight's pick"}
         </p>
+        <h2>{movie.title}</h2>
+
+        {metadata.length > 0 && (
+          <div className="movie-meta" aria-label="Movie details">
+            {metadata.map((item) => (
+              <span key={item}>{item}</span>
+            ))}
+          </div>
+        )}
+
+        {movie.genres.length > 0 && (
+          <div className="movie-genres" aria-label="Genres">
+            {movie.genres.slice(0, 3).map((genre) => (
+              <span key={genre}>{genre}</span>
+            ))}
+          </div>
+        )}
+
+        <p className="movie-description">{movie.plot}</p>
 
         <div className="movie-actions">
-          <button className="btn btn-danger" type="button">
-            View details
-          </button>
-          <span className="movie-note">Featured film</span>
+          <a
+            className="btn btn-danger"
+            href={detailsUrl}
+            {...(movie.imdbId && {
+              target: "_blank",
+              rel: "noreferrer",
+            })}
+          >
+            {movie.imdbId ? "View on IMDb" : "Search a title"}
+          </a>
+          <span className="movie-note">
+            {movie.rating ? `★ ${movie.rating} IMDb` : "Featured film"}
+          </span>
         </div>
       </div>
+
+      {isLoading && (
+        <div className="movie-loading" role="status">
+          <span className="spinner-border spinner-border-sm" aria-hidden="true" />
+          <span>Searching the archive...</span>
+        </div>
+      )}
     </article>
   );
 };

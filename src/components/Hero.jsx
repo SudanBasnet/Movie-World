@@ -1,13 +1,61 @@
+import { useEffect, useRef, useState } from "react";
+import featuredMovie from "../data/featuredMovie";
+import { fetchMovieByTitle } from "../services/omdb";
 import MovieCard from "./MovieCard";
 
 const Hero = () => {
-  const poster = "https://www.omdbapi.com/src/poster.jpg";
+  const [query, setQuery] = useState("");
+  const [movie, setMovie] = useState(featuredMovie);
+  const [status, setStatus] = useState("idle");
+  const [message, setMessage] = useState("");
+  const activeRequest = useRef(null);
+
+  useEffect(() => () => activeRequest.current?.abort(), []);
+
+  const handleSearch = async (event) => {
+    event.preventDefault();
+    const title = query.trim();
+
+    if (!title) {
+      setStatus("error");
+      setMessage("Enter a movie title to start searching.");
+      return;
+    }
+
+    activeRequest.current?.abort();
+    const controller = new AbortController();
+    activeRequest.current = controller;
+    setStatus("loading");
+    setMessage("");
+
+    try {
+      const result = await fetchMovieByTitle(title, controller.signal);
+      setMovie(result);
+      setStatus("success");
+      setMessage(`Showing ${result.title}.`);
+    } catch (error) {
+      if (error.name === "AbortError") return;
+      setStatus("error");
+      setMessage(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again.",
+      );
+    } finally {
+      if (activeRequest.current === controller) {
+        activeRequest.current = null;
+      }
+    }
+  };
+
+  const heroPoster = movie.poster || featuredMovie.poster;
+  const hasSearchResult = movie !== featuredMovie;
 
   return (
     <main
       className="hero"
       id="top"
-      style={{ "--hero-image": `url(${poster})` }}
+      style={{ "--hero-image": `url(${heroPoster})` }}
     >
       <nav className="movie-navbar fixed-top" aria-label="Main navigation">
         <div className="container navbar-inner">
@@ -37,7 +85,7 @@ const Hero = () => {
           <form
             className="movie-search"
             role="search"
-            onSubmit={(event) => event.preventDefault()}
+            onSubmit={handleSearch}
           >
             <label className="visually-hidden" htmlFor="movie-search">
               Search for a movie
@@ -50,20 +98,38 @@ const Hero = () => {
             <input
               id="movie-search"
               type="search"
-              placeholder="Search movies, actors, genres..."
+              value={query}
+              placeholder="Search by movie title..."
               autoComplete="off"
+              onChange={(event) => setQuery(event.target.value)}
             />
-            <button className="btn btn-danger search-button" type="submit">
-              Search
+            <button
+              className="btn btn-danger search-button"
+              type="submit"
+              disabled={status === "loading"}
+            >
+              {status === "loading" ? "Searching..." : "Search"}
             </button>
           </form>
 
+          <p
+            className={`search-feedback ${status === "error" ? "is-error" : ""}`}
+            role={status === "error" ? "alert" : "status"}
+            aria-live="polite"
+          >
+            {message}
+          </p>
+
           <div className="featured-block">
             <div className="section-label">
-              <span>Featured tonight</span>
+              <span>{hasSearchResult ? "Search result" : "Featured tonight"}</span>
               <span className="section-line" aria-hidden="true" />
             </div>
-            <MovieCard />
+            <MovieCard
+              movie={movie}
+              isLoading={status === "loading"}
+              isSearchResult={hasSearchResult}
+            />
           </div>
         </div>
       </section>
