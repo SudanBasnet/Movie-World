@@ -2,6 +2,9 @@
 
 A React and Vite movie finder powered by the OMDb API.
 
+Search for films, save them to Your List, and return to the list later. Saved
+movies are stored locally in the browser with no account required.
+
 ## Local setup
 
 1. Install dependencies:

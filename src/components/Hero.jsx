@@ -3,7 +3,7 @@ import featuredMovie from "../data/featuredMovie";
 import { fetchMovieByTitle } from "../services/omdb";
 import MovieCard from "./MovieCard";
 
-const Hero = () => {
+const Hero = ({ listCount, onAddMovie, isMovieSaved }) => {
   const [query, setQuery] = useState("");
   const [movie, setMovie] = useState(featuredMovie);
   const [status, setStatus] = useState("idle");
@@ -65,7 +65,9 @@ const Hero = () => {
             </span>
             <span>Movie World</span>
           </a>
-          <span className="nav-tagline">Find your next watch</span>
+          <a className="your-list-link" href="#your-list">
+            Your List <span>{listCount}</span>
+          </a>
         </div>
       </nav>
 
@@ -129,6 +131,8 @@ const Hero = () => {
               movie={movie}
               isLoading={status === "loading"}
               isSearchResult={hasSearchResult}
+              isSaved={isMovieSaved(movie)}
+              onAddMovie={onAddMovie}
             />
           </div>
         </div>

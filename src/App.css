@@ -54,6 +54,35 @@
   text-transform: uppercase;
 }
 
+.your-list-link {
+  display: inline-flex;
+  gap: 0.55rem;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 160ms ease;
+}
+
+.your-list-link:hover {
+  color: #fff;
+}
+
+.your-list-link span {
+  display: inline-grid;
+  min-width: 26px;
+  height: 26px;
+  padding-inline: 0.4rem;
+  place-items: center;
+  color: #fff;
+  font-size: 0.72rem;
+  background: #dc3545;
+  border-radius: 999px;
+}
+
 .hero {
   position: relative;
   z-index: 0;
@@ -368,17 +397,40 @@
 
 .movie-actions {
   display: flex;
-  gap: 1rem;
+  flex-wrap: wrap;
+  gap: 0.85rem 1rem;
   align-items: center;
   margin-top: 1.55rem;
 }
 
 .movie-actions .btn {
+  display: inline-flex;
+  gap: 0.45rem;
+  align-items: center;
+  justify-content: center;
   padding: 0.72rem 1.1rem;
   text-decoration: none;
 }
 
+.movie-actions .btn-success {
+  box-shadow: 0 10px 24px rgba(25, 135, 84, 0.24);
+}
+
+.movie-details-link {
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-underline-offset: 0.25rem;
+  transition: color 160ms ease;
+}
+
+.movie-details-link:hover {
+  color: #fff;
+}
+
 .movie-note {
+  display: block;
+  margin-top: 0.85rem;
   color: rgba(255, 255, 255, 0.4);
   font-size: 0.76rem;
   letter-spacing: 0.08em;
@@ -403,11 +455,202 @@
   -webkit-backdrop-filter: blur(8px);
 }
 
-@media (max-width: 575.98px) {
-  .nav-tagline {
-    display: none;
-  }
+.watchlist-section {
+  padding: 5.5rem 0 6.5rem;
+  color: #fff;
+  background:
+    radial-gradient(circle at 18% 15%, rgba(220, 53, 69, 0.1), transparent 28%),
+    #070708;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
 
+.watchlist-header {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.watchlist-eyebrow {
+  margin: 0 0 0.5rem;
+  color: #ff6b77;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.watchlist-header h2 {
+  margin: 0;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.055em;
+}
+
+.watchlist-header p:not(.watchlist-eyebrow) {
+  margin: 0.65rem 0 0;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.watchlist-count {
+  flex: 0 0 auto;
+  padding: 0.55rem 0.8rem;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 999px;
+}
+
+.watchlist-empty {
+  padding: clamp(2.5rem, 8vw, 5rem) 1.5rem;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px dashed rgba(255, 255, 255, 0.14);
+  border-radius: 24px;
+}
+
+.watchlist-empty > span {
+  display: inline-grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  color: #ff6b77;
+  font-size: 1.6rem;
+  background: rgba(220, 53, 69, 0.11);
+  border-radius: 16px;
+}
+
+.watchlist-empty h3 {
+  margin: 1.1rem 0 0;
+  font-size: 1.35rem;
+}
+
+.watchlist-empty p {
+  margin: 0.55rem auto 0;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.watchlist-empty a {
+  display: inline-block;
+  margin-top: 1.2rem;
+  color: #ff6b77;
+  font-weight: 700;
+  text-underline-offset: 0.25rem;
+}
+
+.watchlist-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.saved-movie {
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  min-width: 0;
+  padding: 0.65rem;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 20px;
+  transition:
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+
+.saved-movie:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+  transform: translateY(-2px);
+}
+
+.saved-poster {
+  min-height: 160px;
+  overflow: hidden;
+  background: #151517;
+  border-radius: 14px;
+}
+
+.saved-poster img,
+.saved-poster-fallback {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.saved-poster-fallback {
+  display: grid;
+  place-items: center;
+  color: rgba(255, 255, 255, 0.35);
+  font-weight: 800;
+}
+
+.saved-movie-body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 1rem;
+}
+
+.saved-movie-body > p {
+  margin: 0 0 0.35rem;
+  color: #ff6b77;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.saved-movie h3 {
+  margin: 0;
+  overflow: hidden;
+  font-size: 1.15rem;
+  font-weight: 750;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  text-overflow: ellipsis;
+}
+
+.saved-movie-body > span {
+  margin-top: 0.45rem;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.76rem;
+}
+
+.saved-movie-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 1rem;
+}
+
+.saved-movie-actions a,
+.saved-movie-actions button {
+  padding: 0;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: none;
+  border: 0;
+  text-decoration: underline;
+  text-underline-offset: 0.22rem;
+  cursor: pointer;
+}
+
+.saved-movie-actions a:hover {
+  color: #fff;
+}
+
+.saved-movie-actions button {
+  color: #ff7c87;
+}
+
+@media (max-width: 575.98px) {
   .hero {
     padding-top: 7rem;
   }
@@ -452,10 +695,51 @@
   }
 
   .movie-actions {
+    align-items: stretch;
+    flex-direction: column;
     margin-top: 1.1rem;
   }
 
   .movie-actions .btn {
     width: 100%;
+  }
+
+  .movie-details-link {
+    text-align: center;
+  }
+
+  .watchlist-section {
+    padding: 4rem 0 5rem;
+  }
+
+  .watchlist-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .watchlist-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .saved-movie {
+    grid-template-columns: 92px minmax(0, 1fr);
+  }
+
+  .saved-poster {
+    min-height: 138px;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 991.98px) {
+  .watchlist-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .saved-movie,
+  .your-list-link {
+    transition: none;
   }
 }

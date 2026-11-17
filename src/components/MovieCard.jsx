@@ -1,4 +1,10 @@
-const MovieCard = ({ movie, isLoading, isSearchResult }) => {
+const MovieCard = ({
+  movie,
+  isLoading,
+  isSearchResult,
+  isSaved,
+  onAddMovie,
+}) => {
   const metadata = [movie.year, movie.runtime, movie.rated].filter(Boolean);
   const detailsUrl = movie.imdbId
     ? `https://www.imdb.com/title/${movie.imdbId}/`
@@ -45,8 +51,18 @@ const MovieCard = ({ movie, isLoading, isSearchResult }) => {
         <p className="movie-description">{movie.plot}</p>
 
         <div className="movie-actions">
+          <button
+            className={`btn ${isSaved ? "btn-success" : "btn-danger"}`}
+            type="button"
+            disabled={isSaved || isLoading}
+            aria-pressed={isSaved}
+            onClick={() => onAddMovie(movie)}
+          >
+            <span aria-hidden="true">{isSaved ? "✓" : "+"}</span>
+            {isSaved ? "Added to list" : "Add to list"}
+          </button>
           <a
-            className="btn btn-danger"
+            className="movie-details-link"
             href={detailsUrl}
             {...(movie.imdbId && {
               target: "_blank",
@@ -55,10 +71,10 @@ const MovieCard = ({ movie, isLoading, isSearchResult }) => {
           >
             {movie.imdbId ? "View on IMDb" : "Search a title"}
           </a>
-          <span className="movie-note">
-            {movie.rating ? `★ ${movie.rating} IMDb` : "Featured film"}
-          </span>
         </div>
+        <span className="movie-note">
+          {movie.rating ? `★ ${movie.rating} IMDb` : "Featured film"}
+        </span>
       </div>
 
       {isLoading && (
